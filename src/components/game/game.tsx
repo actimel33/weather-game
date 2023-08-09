@@ -90,7 +90,7 @@ const Game = () => {
         <h1 className="md:text-xl lg:text-xl  font-semibold mb-4 text-gray-600 uppercase ">{GAME_TITLE}</h1>
         {!isLoading && (
           <>
-            <div>
+            <div className="flex flex-1 flex-col">
               {!result &&
                 citiesData.map(city => (
                   <TemperatureInput
@@ -103,11 +103,17 @@ const Game = () => {
                     }}
                   />
                 ))}
-              {!citiesData.length && !isLoading && (
-                <p className="mt-4 mb-7 font-semibold text-xl text-center text-gray-500">{NO_CITIES}</p>
+              {!citiesData && !isLoading && (
+                <div className="flex flex-1 justify-center items-center">
+                  <p className="mt-4 mb-7 font-semibold text-xl text-center text-gray-500">{NO_CITIES}</p>
+                </div>
+              )}
+              {result && (
+                <div className="flex flex-1 justify-center items-center">
+                  <p className="mt-4 mb-7 font-semibold text-xl text-center text-green-500">{result}</p>{' '}
+                </div>
               )}
             </div>
-            {result && <p className="mt-4 mb-7 font-semibold text-xl text-center text-green-500">{result}</p>}
             {result && (
               <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold" onClick={resetGame}>
                 {RESTART_BUTTON_TEXT}
