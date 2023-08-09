@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,22 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
+
+.inputField:focus + .label {
+  @apply -translate-x-16 sm:-translate-x-14 transition-all ease-out duration-300 bg-white rounded
+}
+
+.inputField:disabled + .label {
+  @apply -translate-x-16 sm:-translate-x-14 transition-all ease-out duration-300 bg-gray-50 rounded
 }

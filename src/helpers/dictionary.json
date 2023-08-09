@@ -1,0 +1,8 @@
+{
+  "GAME_TITLE": "Guess the Temperature",
+  "TEMPERATURE_GUESS_MESSAGE": "Your guess",
+  "RESTART_BUTTON_TEXT": "Restart",
+  "USER_GUESS_TEXT": "User guess: ",
+  "ACTUAL_TEMPERATURE_TEXT": "Actual Temperature: ",
+  "NO_CITIES": "No Cities found!"
+}
