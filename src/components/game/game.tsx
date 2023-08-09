@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import useWeatherServiceHook from '../../lib/useWeatherServiceHook';
@@ -8,12 +8,14 @@ import dictionary from '../../helpers/dictionary.json';
 import { ICityData, IUserGuesses } from './types';
 import Answer from '../answer';
 
-export default function Game() {
+const Game = () => {
   const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES } = dictionary;
-  const { getWeather } = useWeatherServiceHook();
+
   const [citiesData, setCitiesData] = useState<ICityData[]>([]);
   const [userGuesses, setUserGuesses] = useState<IUserGuesses[]>([]);
   const [result, setResult] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const { getWeather } = useWeatherServiceHook(setError);
 
   // Generate object with user guess temperature, actual adn deviation
   const handleGuess = (city: ICityData, userTemp: number) => {
@@ -29,10 +31,10 @@ export default function Game() {
   const debouncedHandleGuess = useDebouncedCallback(handleGuess, 400);
 
   // Adds reset game function
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     setUserGuesses([]);
     setResult('');
-  };
+  }, []);
 
   useEffect(() => {
     // Retrieves data for the game before it began
@@ -40,6 +42,10 @@ export default function Game() {
       const cityNames = ['New York', 'London', 'Tokyo', 'Sydney', 'Paris'];
       const cityPromises = cityNames.map(async city => {
         const data = await getWeather(city);
+
+        if (!data) {
+          return null;
+        }
 
         return {
           name: city,
@@ -50,7 +56,9 @@ export default function Game() {
 
       const cityData = await Promise.all(cityPromises);
 
-      setCitiesData(cityData);
+      const filteredCityData = cityData.filter((item: ICityData | null) => item ?? item) as ICityData[];
+
+      setCitiesData(filteredCityData);
     };
 
     fetchCityData();
@@ -68,6 +76,13 @@ export default function Game() {
       }
     }
   }, [userGuesses, citiesData]);
+
+  useEffect(() => {
+    // Hook to handle errors
+    if (error) {
+      throw new Error(error);
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center pt-4  flex-col">
@@ -99,9 +114,11 @@ export default function Game() {
       </div>
       <div className="mt-8">
         {userGuesses.map(item => (
-          <Answer userAnswer={item.user} actualTemp={item.actual} />
+          <Answer userAnswer={item.user} actualTemp={item.actual} key={item.id} />
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default memo(Game);
