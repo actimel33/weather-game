@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { slideAnimation } from '../../helpers/motion';
 import dictionary from '../../helpers/dictionary.json';
 
+const { USER_GUESS_TEXT, ACTUAL_TEMPERATURE_TEXT } = dictionary;
+
 const Answer = ({ userAnswer, actualTemp }: { userAnswer: number; actualTemp: number }) => {
-  const { USER_GUESS_TEXT, ACTUAL_TEMPERATURE_TEXT } = dictionary;
   return (
     <motion.div {...slideAnimation('up')}>
       <p className="text-xl text-gray-600">

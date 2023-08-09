@@ -4,5 +4,7 @@
   "RESTART_BUTTON_TEXT": "Restart",
   "USER_GUESS_TEXT": "User guess: ",
   "ACTUAL_TEMPERATURE_TEXT": "Actual Temperature: ",
-  "NO_CITIES": "No Cities found!"
+  "NO_CITIES": "No Cities found!",
+  "USER_WIN_MSG": "You Win!", 
+  "USER_LOSE_MSG": "You Lose!"
 }

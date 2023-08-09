@@ -8,14 +8,14 @@ import dictionary from '../../helpers/dictionary.json';
 import { ICityData, IUserGuesses } from './types';
 import Answer from '../answer';
 
-const Game = () => {
-  const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES } = dictionary;
+const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES, USER_WIN_MSG, USER_LOSE_MSG } = dictionary;
 
+const Game = () => {
   const [citiesData, setCitiesData] = useState<ICityData[]>([]);
   const [userGuesses, setUserGuesses] = useState<IUserGuesses[]>([]);
   const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { getWeather } = useWeatherServiceHook(setError);
+  const { getWeather, isLoading } = useWeatherServiceHook(setError);
 
   // Generate object with user guess temperature, actual adn deviation
   const handleGuess = (city: ICityData, userTemp: number) => {
@@ -70,9 +70,9 @@ const Game = () => {
     const guessed = userGuesses.filter(el => el.guessed);
     if (userGuesses.length === citiesData.length && citiesData.length) {
       if (guessed.length >= 3) {
-        setResult('You Win!');
+        setResult(USER_WIN_MSG);
       } else {
-        setResult('You Lose!');
+        setResult(USER_LOSE_MSG);
       }
     }
   }, [userGuesses, citiesData]);
@@ -88,29 +88,34 @@ const Game = () => {
     <div className="min-h-screen bg-gray-100 flex items-center pt-4  flex-col">
       <div className="bg-white p-6 rounded shadow-lg h-96 min-h-full max-w-xs flex flex-col justify-around">
         <h1 className="md:text-xl lg:text-xl  font-semibold mb-4 text-gray-600 uppercase ">{GAME_TITLE}</h1>
-        <div>
-          {!result &&
-            citiesData.map(city => (
-              <TemperatureInput
-                city={city}
-                key={city.id}
-                inputProps={{
-                  disabled: userGuesses.some(el => el.id === city.id),
-                  onChange: e => debouncedHandleGuess(city, parseInt(e.target.value)),
-                  id: city.id.toString(),
-                }}
-              />
-            ))}
-          {!citiesData.length && (
-            <p className="mt-4 mb-7 font-semibold text-xl text-center text-gray-500">{NO_CITIES}</p>
-          )}
-        </div>
-        {result && <p className="mt-4 mb-7 font-semibold text-xl text-center text-green-500">{result}</p>}
-        {result && (
-          <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold" onClick={resetGame}>
-            {RESTART_BUTTON_TEXT}
-          </Button>
+        {!isLoading && (
+          <>
+            <div>
+              {!result &&
+                citiesData.map(city => (
+                  <TemperatureInput
+                    city={city}
+                    key={city.id}
+                    inputProps={{
+                      disabled: userGuesses.some(el => el.id === city.id),
+                      onChange: e => debouncedHandleGuess(city, parseInt(e.target.value)),
+                      id: city.id.toString(),
+                    }}
+                  />
+                ))}
+              {!citiesData.length && !isLoading && (
+                <p className="mt-4 mb-7 font-semibold text-xl text-center text-gray-500">{NO_CITIES}</p>
+              )}
+            </div>
+            {result && <p className="mt-4 mb-7 font-semibold text-xl text-center text-green-500">{result}</p>}
+            {result && (
+              <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold" onClick={resetGame}>
+                {RESTART_BUTTON_TEXT}
+              </Button>
+            )}
+          </>
         )}
+        {isLoading && <div className="max-w-xs flex flex-1 justify-center items-center">...Loading</div>}
       </div>
       <div className="mt-8">
         {userGuesses.map(item => (
