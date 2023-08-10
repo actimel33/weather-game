@@ -1,15 +1,20 @@
 import { ITemperatureInputProps } from './types';
 
-export default function TemperatureInput({ inputProps, city, labelProps, containerProps }: ITemperatureInputProps) {
+export default function TemperatureInput({ inputProps, cityName, labelProps, containerProps }: ITemperatureInputProps) {
   return (
     <div {...containerProps} className="mb-4 relative">
-      <input type="number" className="border rounded p-2 w-full text-center text-gray-400 inputField" {...inputProps} />
+      <input
+        type="number"
+        className="border rounded p-2 w-full text-center text-yellow-950 font-medium inputField mr-8"
+        {...inputProps}
+      />
+
       <label
         htmlFor={inputProps.id}
-        className=" text-center text-gray-500 absolute top-2 md:w-1/3 sm:w-auto left-1/3  label  transition-all ease-out duration-300"
+        className="label text-center text-yellow-950 font-medium absolute w-auto left-3 -top-3 bg-white px-2 opacity-75"
         {...labelProps}
       >
-        {city.name}
+        {cityName}
       </label>
     </div>
   );

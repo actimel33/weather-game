@@ -1,5 +1,6 @@
 {
   "GAME_TITLE": "Guess the Temperature",
+  "TEMPERATURE_INPUT_PLACEHOLDER": "℃",
   "TEMPERATURE_GUESS_MESSAGE": "Your guess",
   "RESTART_BUTTON_TEXT": "Restart",
   "USER_GUESS_TEXT": "User guess: ",

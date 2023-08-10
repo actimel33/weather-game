@@ -26,10 +26,29 @@ code {
   }
 }
 
-.inputField:focus + .label {
-  @apply -translate-x-16 sm:-translate-x-14 transition-all ease-out duration-300 bg-white rounded
+.inputField {
+  @apply  bg-blue-50 opacity-80
 }
 
-.inputField:disabled + .label {
-  @apply -translate-x-16 sm:-translate-x-14 transition-all ease-out duration-300 bg-gray-50 rounded
+.inputField:disabled {
+  @apply  bg-blue-50 opacity-60
+}
+
+.inputField:focus,
+.inputField:active {
+  @apply outline-1 outline-yellow-700
+}
+
+.inputField:focus + .label,
+.inputField:disabled + .label,
+.inputField:hover + .label {
+  @apply opacity-100
+}
+
+.inputField::placeholder {
+  @apply text-xs text-black font-bold
+}
+
+.inputField:hover::placeholder {
+  @apply text-xs text-black font-medium
 }

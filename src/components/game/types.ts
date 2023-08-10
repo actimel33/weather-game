@@ -17,6 +17,7 @@ export interface IUserGuesses {
   actual: number;
   guessed: boolean;
   id: number;
+  cityName: string;
 }
 
 export interface IWeatherServiceClass {
