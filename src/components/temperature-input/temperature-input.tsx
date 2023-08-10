@@ -11,7 +11,7 @@ export default function TemperatureInput({ inputProps, cityName, labelProps, con
 
       <label
         htmlFor={inputProps.id}
-        className="label text-center text-yellow-950 font-medium absolute w-auto left-3 -top-3 bg-white px-2 opacity-75"
+        className="label text-center text-yellow-950 font-medium absolute w-auto left-3 -top-3 bg-white px-2 opacity-75 hover:cursor-text "
         {...labelProps}
       >
         {cityName}
