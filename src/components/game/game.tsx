@@ -17,7 +17,7 @@ const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES, USER_WIN_MSG, USER_LOSE_MSG,
 
 const Game = () => {
   const [citiesData, setCitiesData] = useState<ICityData[]>([]);
-  const [cityNames, _] = useState<string[]>(() => chooseRandomElements(citiesNamesArray, 5));
+  const [cityNames] = useState<string[]>(() => chooseRandomElements(citiesNamesArray, 5));
   const [userGuesses, setUserGuesses] = useState<IUserGuesses[]>([]);
   const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);

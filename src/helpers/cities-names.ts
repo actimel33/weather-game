@@ -1,4 +1,4 @@
-export default [
+const names = [
   'Amsterdam',
   'Athens',
   'Baghdad',
@@ -75,3 +75,5 @@ export default [
   'Tuscumbia',
   'Tuskegee',
 ];
+
+export default names;
