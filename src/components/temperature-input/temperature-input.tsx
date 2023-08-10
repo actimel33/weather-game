@@ -5,7 +5,7 @@ export default function TemperatureInput({ inputProps, cityName, labelProps, con
     <div {...containerProps} className="mb-4 relative">
       <input
         type="number"
-        className="border rounded p-2 w-full text-center text-yellow-950 font-medium inputField mr-8"
+        className="border rounded p-2 w-full text-center text-yellow-950 font-medium inputField mr-8 border-2"
         {...inputProps}
       />
 

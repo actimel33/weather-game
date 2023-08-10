@@ -73,11 +73,20 @@ const useActions = ({
     [handleGuess],
   );
 
+  const onKeyDownHandler = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>, cityName: string, val: number) => {
+      if (event.key === 'Enter' && !!event.currentTarget.value) {
+        event.currentTarget.disabled = true;
+      }
+    },
+    [],
+  );
+
   const onFocusHandler = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     e.target.placeholder = '';
   }, []);
 
-  return { resetGame, onBlurHandler, onFocusHandler };
+  return { resetGame, onBlurHandler, onFocusHandler, onKeyDownHandler };
 };
 
 export default useActions;

@@ -31,7 +31,11 @@ code {
 }
 
 .inputField:disabled {
-  @apply  bg-blue-50 opacity-60
+  @apply  bg-blue-50 opacity-70
+}
+
+.inputField:hover {
+  @apply  border-2 border-yellow-700
 }
 
 .inputField:focus,
