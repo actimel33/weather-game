@@ -11,6 +11,8 @@ import backgroundImage from '../../images/weather-app.png';
 import useActions from './useActions';
 import Spinner from '../spinner';
 import chooseRandomElements from '../../lib/useChooseRandomElements';
+import state from '../../store';
+import { useSnapshot } from 'valtio';
 
 const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES, USER_WIN_MSG, USER_LOSE_MSG, TEMPERATURE_INPUT_PLACEHOLDER } =
   dictionary;
@@ -22,6 +24,7 @@ const Game = () => {
   const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { getWeather, isLoading } = useWeatherServiceHook(setError);
+  const snap = useSnapshot(state);
 
   const { resetGame, onBlurHandler, onFocusHandler, onKeyDownHandler } = useActions({
     setCitiesData,
@@ -36,9 +39,12 @@ const Game = () => {
     if (userGuesses.length === cityNames.length) {
       if (guessed.length >= 3) {
         setResult(USER_WIN_MSG);
+        state.winGames++;
       } else {
         setResult(USER_LOSE_MSG);
+        state.looseGames++;
       }
+      state.totalGames++;
     }
   }, [userGuesses, cityNames.length]);
 
@@ -73,12 +79,19 @@ const Game = () => {
             ))}
           {!citiesData && (
             <div className="flex flex-1 justify-center items-center">
-              <p className="mt-4 mb-7 font-semibold text-xl text-center text-yellow-950">{NO_CITIES}</p>
+              <p className="mt-4 mb-7 font-bold text-3xl text-center text-yellow-950">{NO_CITIES}</p>
             </div>
           )}
           {result && (
             <div className="flex flex-1 justify-center items-center">
               <p className="mt-4 mb-7 font-bold text-6xl text-center  text-blue-600">{result}</p>
+            </div>
+          )}
+          {citiesData && (
+            <div className="flex flex-1 justify-between">
+              <p className="text-yellow-950 font-semibold uppercase">win: {snap.winGames}</p>
+              <p className="text-yellow-950 font-semibold uppercase">total: {snap.totalGames}</p>
+              <p className="text-yellow-950 font-semibold uppercase">loose: {snap.looseGames}</p>
             </div>
           )}
         </div>
