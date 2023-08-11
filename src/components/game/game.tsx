@@ -14,12 +14,22 @@ import chooseRandomElements from '../../lib/useChooseRandomElements';
 import state from '../../store';
 import { useSnapshot } from 'valtio';
 
-const { GAME_TITLE, RESTART_BUTTON_TEXT, NO_CITIES, USER_WIN_MSG, USER_LOSE_MSG, TEMPERATURE_INPUT_PLACEHOLDER } =
-  dictionary;
+const {
+  GAME_TITLE,
+  RESTART_BUTTON_TEXT,
+  NO_CITIES,
+  USER_WIN_MSG,
+  USER_LOOSE_MSG,
+  TEMPERATURE_INPUT_PLACEHOLDER,
+  USER_PLAYED_GAMES_TEXT,
+  USER_WIN_GAMES_TEXT,
+  USER_TOTAL_GAMES_TEXT,
+  USER_LOOSE_GAMES_TEXT,
+} = dictionary;
 
 const Game = () => {
   const [citiesData, setCitiesData] = useState<ICityData[]>([]);
-  const [cityNames] = useState<string[]>(() => chooseRandomElements(citiesNamesArray, 5));
+  const [cityNames, setCityNames] = useState<string[]>(() => chooseRandomElements(citiesNamesArray, 5));
   const [userGuesses, setUserGuesses] = useState<IUserGuesses[]>([]);
   const [result, setResult] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -31,6 +41,7 @@ const Game = () => {
     setUserGuesses,
     setResult,
     getWeather,
+    setCityNames,
   });
 
   useEffect(() => {
@@ -41,7 +52,7 @@ const Game = () => {
         setResult(USER_WIN_MSG);
         state.winGames++;
       } else {
-        setResult(USER_LOSE_MSG);
+        setResult(USER_LOOSE_MSG);
         state.looseGames++;
       }
       state.totalGames++;
@@ -58,21 +69,24 @@ const Game = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center pt-4 flex-col">
       <div
-        className="bg-yellow-50 p-6 rounded shadow-lg h-96 min-h-full max-w-xs flex flex-col justify-around"
+        className={`bg-yellow-50 p-6 rounded shadow-lg max-w-xs flex flex-col justify-around ${
+          result ? 'h-96' : 'min-h-full'
+        }`}
         style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         <h1 className="md:text-xl lg:text-xl  font-bold mb-4 text-yellow-950 uppercase">{GAME_TITLE}</h1>
         <div className="flex flex-1 flex-col">
           {!result &&
-            cityNames.map(city => (
+            cityNames.map((city, index) => (
               <TemperatureInput
                 cityName={city}
                 key={city}
                 inputProps={{
+                  autoFocus: index === 0,
                   placeholder: `${TEMPERATURE_INPUT_PLACEHOLDER}`,
                   onFocus: onFocusHandler,
                   onBlur: e => onBlurHandler(e, city, parseInt(e.target.value)),
-                  onKeyDown: e => onKeyDownHandler(e, city, parseInt(e.currentTarget.value)),
+                  onKeyDown: e => onKeyDownHandler(e),
                   id: city,
                 }}
               />
@@ -88,10 +102,19 @@ const Game = () => {
             </div>
           )}
           {citiesData && (
-            <div className="flex flex-1 justify-between">
-              <p className="text-yellow-950 font-semibold uppercase">win: {snap.winGames}</p>
-              <p className="text-yellow-950 font-semibold uppercase">total: {snap.totalGames}</p>
-              <p className="text-yellow-950 font-semibold uppercase">loose: {snap.looseGames}</p>
+            <div className="flex flex-wrap flex-col pb-4">
+              <p className="text-yellow-950 font-semibold text-center uppercase">{USER_PLAYED_GAMES_TEXT}</p>
+              <div className="flex flex-1 justify-around">
+                <p className="text-yellow-950 font-semibold uppercase">
+                  {USER_WIN_GAMES_TEXT}: {snap.winGames}
+                </p>
+                <p className="text-yellow-950 font-semibold uppercase">
+                  {USER_TOTAL_GAMES_TEXT}: {snap.totalGames}
+                </p>
+                <p className="text-yellow-950 font-semibold uppercase">
+                  {USER_LOOSE_GAMES_TEXT}: {snap.looseGames}
+                </p>
+              </div>
             </div>
           )}
         </div>

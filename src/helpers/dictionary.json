@@ -7,5 +7,9 @@
   "ACTUAL_TEMPERATURE_TEXT": "Actual Temperature: ",
   "NO_CITIES": "No Cities found!",
   "USER_WIN_MSG": "You Win!", 
-  "USER_LOSE_MSG": "You Lose!"
+  "USER_LOOSE_MSG": "You Lose!",
+  "USER_PLAYED_GAMES_TEXT": "Games Played",
+  "USER_WIN_GAMES_TEXT": "Wn",
+  "USER_TOTAL_GAMES_TEXT": "Total",
+  "USER_LOOSE_GAMES_TEXT": "Loose"
 }

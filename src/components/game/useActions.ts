@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import { ICityData, ICityWeatherData, IUserGuesses } from './types';
 
 import dictionary from '../../helpers/dictionary.json';
+import chooseRandomElements from '../../lib/useChooseRandomElements';
+import citiesNamesArray from '../../helpers/cities-names';
 
 const { TEMPERATURE_INPUT_PLACEHOLDER } = dictionary;
 
@@ -10,11 +12,13 @@ const useActions = ({
   setCitiesData,
   setUserGuesses,
   setResult,
+  setCityNames,
 }: {
   getWeather: (cityName: string) => Promise<ICityWeatherData | null>;
   setCitiesData: React.Dispatch<React.SetStateAction<ICityData[]>>;
   setUserGuesses: React.Dispatch<React.SetStateAction<IUserGuesses[]>>;
   setResult: React.Dispatch<React.SetStateAction<string>>;
+  setCityNames: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
   // Generate object with user guess temperature, actual adn deviation
   const fetchCityData = useCallback(
@@ -59,7 +63,8 @@ const useActions = ({
   const resetGame = useCallback(() => {
     setUserGuesses([]);
     setResult('');
-  }, [setResult, setUserGuesses]);
+    setCityNames(chooseRandomElements(citiesNamesArray, 5));
+  }, [setResult, setUserGuesses, setCityNames]);
 
   const onBlurHandler = useCallback(
     (e: React.FocusEvent<HTMLInputElement, Element>, cityName: string, val: number) => {
@@ -73,14 +78,11 @@ const useActions = ({
     [handleGuess],
   );
 
-  const onKeyDownHandler = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>, cityName: string, val: number) => {
-      if (event.key === 'Enter' && !!event.currentTarget.value) {
-        event.currentTarget.disabled = true;
-      }
-    },
-    [],
-  );
+  const onKeyDownHandler = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && !!event.currentTarget.value) {
+      event.currentTarget.disabled = true;
+    }
+  }, []);
 
   const onFocusHandler = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     e.target.placeholder = '';
