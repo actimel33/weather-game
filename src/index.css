@@ -30,8 +30,8 @@ code {
   @apply  bg-blue-50 opacity-80
 }
 
-.inputField:disabled {
-  @apply  bg-blue-50 opacity-70
+.inputField:hover:disabled {
+  @apply  bg-blue-50 opacity-80 border-2 border-opacity-50 border-gray-100
 }
 
 .inputField:hover {
