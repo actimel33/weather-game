@@ -9,7 +9,7 @@
   "USER_WIN_MSG": "You Win!", 
   "USER_LOOSE_MSG": "You Lose!",
   "USER_PLAYED_GAMES_TEXT": "Games Played",
-  "USER_WIN_GAMES_TEXT": "Wn",
+  "USER_WIN_GAMES_TEXT": "Win",
   "USER_TOTAL_GAMES_TEXT": "Total",
   "USER_LOOSE_GAMES_TEXT": "Loose"
 }
