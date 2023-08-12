@@ -102,7 +102,7 @@ const Game = () => {
             </div>
           )}
           {citiesData && (
-            <div className="flex flex-wrap flex-col pb-4">
+            <div className="flex flex-wrap flex-col">
               <p className="text-yellow-950 font-semibold text-center uppercase">{USER_PLAYED_GAMES_TEXT}</p>
               <div className="flex flex-1 justify-around">
                 <p className="text-yellow-950 font-semibold uppercase">
